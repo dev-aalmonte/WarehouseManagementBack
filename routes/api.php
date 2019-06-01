@@ -21,7 +21,8 @@ Route::apiResources([
     'products' => 'API\ProductController',
     'roles' => 'API\RoleController',
     'status' => 'API\StatusController',
-    'user' => 'API\UserController',
+    'users' => 'API\UserController',
+    'warehouses' => 'API\WarehouseController'
 ]);
 
 
