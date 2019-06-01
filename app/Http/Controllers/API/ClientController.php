@@ -26,7 +26,17 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $client = new Client();
+
+        $client->first_name = $request->first_name;
+        $client->last_name = $request->last_name;
+        $client->email = $request->email;
+        $client->billing_addressID = $request->billing_addressID;
+        $client->shipping_addressID = $request->shipping_addressID;
+
+        $client->save();
+
+        return $client;
     }
 
     /**
@@ -37,7 +47,7 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        //
+        return $client;
     }
 
     /**
@@ -49,7 +59,15 @@ class ClientController extends Controller
      */
     public function update(Request $request, Client $client)
     {
-        //
+        $client->first_name = $request->first_name;
+        $client->last_name = $request->last_name;
+        $client->email = $request->email;
+        $client->billing_addressID = $request->billing_addressID;
+        $client->shipping_addressID = $request->shipping_addressID;
+
+        $client->save();
+
+        return $client;
     }
 
     /**
@@ -60,6 +78,8 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        //
+        $client->delete();
+
+        return 1;
     }
 }

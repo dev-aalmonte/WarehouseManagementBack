@@ -26,7 +26,18 @@ class AddressController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $address = new Address();
+
+        $address->street_address = $request->street_address;
+        $address->extra_address = $request->extra_address;
+        $address->city = $request->city;
+        $address->state = $request->state;
+        $address->country = $request->country;
+        $address->zipcode = $request->zipcode;
+
+        $address->save;
+
+        return $address;
     }
 
     /**
@@ -37,7 +48,7 @@ class AddressController extends Controller
      */
     public function show(Address $address)
     {
-        //
+        return $address;
     }
 
     /**
@@ -49,7 +60,16 @@ class AddressController extends Controller
      */
     public function update(Request $request, Address $address)
     {
-        //
+        $address->street_address = $request->street_address;
+        $address->extra_address = $request->extra_address;
+        $address->city = $request->city;
+        $address->state = $request->state;
+        $address->country = $request->country;
+        $address->zipcode = $request->zipcode;
+
+        $address->save;
+
+        return $address;
     }
 
     /**
@@ -60,6 +80,8 @@ class AddressController extends Controller
      */
     public function destroy(Address $address)
     {
-        //
+        $address->delete();
+
+        return 1;
     }
 }

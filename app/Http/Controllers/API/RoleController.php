@@ -26,7 +26,13 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $role = new Role();
+
+        $role->role = $request['role'];
+
+        $role->save();
+
+        return $role;
     }
 
     /**
@@ -37,7 +43,7 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        //
+        return $role;
     }
 
     /**
@@ -49,7 +55,11 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        //
+        $role->role = $request->role;
+
+        $role->save();
+
+        return $role;
     }
 
     /**
@@ -60,6 +70,8 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        //
+        $role->delete();
+
+        return 1;
     }
 }

@@ -26,7 +26,16 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $order = new Order();
+
+        $order->clientID = $request->clientID;
+        $order->subtotal = $request->subtotal;
+        $order->total = $request->total;
+        $order->statusID = $request->statusID;
+
+        $order->save();
+
+        return $order;
     }
 
     /**
@@ -37,7 +46,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        return $order;
     }
 
     /**
@@ -49,7 +58,14 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        //
+        $order->clientID = $request->clientID;
+        $order->subtotal = $request->subtotal;
+        $order->total = $request->total;
+        $order->statusID = $request->statusID;
+
+        $order->save();
+
+        return $order;
     }
 
     /**
@@ -60,6 +76,8 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        //
+        $order->delete();
+
+        return 1;
     }
 }

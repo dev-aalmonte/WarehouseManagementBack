@@ -26,7 +26,23 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $product = new Product();
+
+        $product->name = $request->name;
+        $product->price = $request->price;
+        $product->description = $request->description;
+        $product->metric_weight = $request->metric_weight;
+        $product->weight = $request->weight;
+        $product->metric_longitude = $request->metric_longitude;
+        $product->width = $request->width;
+        $product->height = $request->height;
+        $product->length = $request->length;
+        $product->warehouseID = $request->warehouseID;
+        $product->statusID = $request->statusID;
+
+        $product->save();
+
+        return $product;
     }
 
     /**
@@ -37,7 +53,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return $product;
     }
 
     /**
@@ -49,7 +65,21 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $product->name = $request->name;
+        $product->price = $request->price;
+        $product->description = $request->description;
+        $product->metric_weight = $request->metric_weight;
+        $product->weight = $request->weight;
+        $product->metric_longitude = $request->metric_longitude;
+        $product->width = $request->width;
+        $product->height = $request->height;
+        $product->length = $request->length;
+        $product->warehouseID = $request->warehouseID;
+        $product->statusID = $request->statusID;
+
+        $product->save();
+
+        return $product;
     }
 
     /**
@@ -60,6 +90,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return 1;
     }
 }

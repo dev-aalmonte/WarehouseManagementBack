@@ -26,7 +26,14 @@ class StatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $status = new Status();
+
+        $status->property = $request->property;
+        $status->name = $request->name;
+
+        $status->save();
+
+        return $status;
     }
 
     /**
@@ -37,7 +44,7 @@ class StatusController extends Controller
      */
     public function show(Status $status)
     {
-        //
+        return $status;
     }
 
     /**
@@ -49,7 +56,12 @@ class StatusController extends Controller
      */
     public function update(Request $request, Status $status)
     {
-        //
+        $status->property = $request->property;
+        $status->name = $request->name;
+
+        $status->save();
+
+        return $status;
     }
 
     /**
@@ -60,6 +72,8 @@ class StatusController extends Controller
      */
     public function destroy(Status $status)
     {
-        //
+        $status->delete();
+
+        return 1;
     }
 }
