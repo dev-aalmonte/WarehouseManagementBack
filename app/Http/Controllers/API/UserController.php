@@ -8,11 +8,31 @@ use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    public function login(Request $request){
+        if( auth()->attempt(['email' => $request->email, 'password' => $request->password]) ){
+            $user = auth()->user();
+            $user->api_token = str_random(60);
+            $user->save();
+
+            return $user;
+        }
+
+        return ['error' => 'Unauthenticated User', 'code' => 401];
+    }
+
+    public function logout(Request $request){
+        if (auth()->user()){
+            $user = auth()->user();
+            $user->api_token = null;
+            $user->save();
+
+            return ['message' => 'success'];
+        }
+
+        return ['error' => 'Unable to logout', 'code' => 401];
+    }
+
     public function index()
     {
         return User::all();

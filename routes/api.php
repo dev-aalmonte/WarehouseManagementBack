@@ -29,3 +29,6 @@ Route::apiResources([
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/login', 'API\UserController@Login');
+Route::middleware('auth:api')->post('/logout', 'API\UserController@Logout');
