@@ -22,8 +22,8 @@ class UserController extends Controller
     }
 
     public function logout(Request $request){
-        if (auth()->user()){
-            $user = auth()->user();
+        $user = User::findOrFail($request->id);
+        if ($user->api_token == $request->token) {
             $user->api_token = null;
             $user->save();
 
