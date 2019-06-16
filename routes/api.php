@@ -30,5 +30,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/login', 'API\UserController@Login');
-Route::post('/logout', 'API\UserController@Logout');
+Route::middleware('cors')->group(function () {
+    Route::post('/login', 'API\UserController@Login');
+    Route::post('/logout', 'API\UserController@Logout');
+});
+

@@ -18,7 +18,7 @@ class UserController extends Controller
             return $user;
         }
 
-        return ['error' => 'Unauthenticated User', 'code' => 401];
+        return ['error' => 'Unauthenticated User', 'code' => 401, 'request' => $request->all()];
     }
 
     public function logout(Request $request){
