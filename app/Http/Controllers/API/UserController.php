@@ -33,6 +33,12 @@ class UserController extends Controller
         return ['error' => 'Unable to logout', 'code' => 401];
     }
 
+    public function showByToken($token) {
+        $user = User::where('api_token', $token)->first();
+
+        return $user;
+    }
+
     public function index()
     {
         return User::all();

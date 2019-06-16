@@ -33,5 +33,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware('cors')->group(function () {
     Route::post('/login', 'API\UserController@Login');
     Route::post('/logout', 'API\UserController@Logout');
+
+    Route::get('/user/token/{token}', 'API\UserController@showByToken');
 });
 
