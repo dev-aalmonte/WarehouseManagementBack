@@ -8,8 +8,8 @@ class Status extends Model
 {
     protected $table = 'status';
 
-    public function products() {
-        return $this->hasMany('App\Product');
+    public function product_warehouses() {
+        return $this->hasMany('App\ProductWarehouse');
     }
 
     public function orders() {

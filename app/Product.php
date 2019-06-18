@@ -9,7 +9,7 @@ class Product extends Model
     protected $table = 'products';
 
     public function warehouse() {
-        return $this->belongsTo('App\Warehouse');
+        return $this->belongsToMany('App\Warehouse', 'product_warehouses', 'productID', 'warehouseID');
     }
 
     public function orderDetails() {
