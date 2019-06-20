@@ -13,24 +13,24 @@ use Illuminate\Http\Request;
 |
 
 */
-Route::apiResources([
-    'addresses' => 'API\AddressController',
-    'categories' => 'API\CategoryController',
-    'clients' => 'API\ClientController',
-    'orders' => 'API\OrderController',
-    'products' => 'API\ProductController',
-    'roles' => 'API\RoleController',
-    'status' => 'API\StatusController',
-    'users' => 'API\UserController',
-    'warehouses' => 'API\WarehouseController'
-]);
-
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::middleware('cors')->group(function () {
+    Route::apiResources([
+        'addresses' => 'API\AddressController',
+        'categories' => 'API\CategoryController',
+        'clients' => 'API\ClientController',
+        'orders' => 'API\OrderController',
+        'products' => 'API\ProductController',
+        'roles' => 'API\RoleController',
+        'status' => 'API\StatusController',
+        'users' => 'API\UserController',
+        'warehouses' => 'API\WarehouseController'
+    ]);
+
     Route::post('/login', 'API\UserController@Login');
     Route::post('/logout', 'API\UserController@Logout');
 
