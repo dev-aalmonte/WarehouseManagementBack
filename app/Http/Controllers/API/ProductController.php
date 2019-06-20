@@ -13,8 +13,13 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->search;
+        if($search !== '' || $search !== null){
+            return Product::where('name', 'like', '%'.$search.'%')->paginate(15);
+        }
+
         return Product::paginate(15);
     }
 
