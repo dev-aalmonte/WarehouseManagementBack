@@ -42,8 +42,6 @@ class ProductController extends Controller
         $product->width = $request->width;
         $product->height = $request->height;
         $product->length = $request->length;
-        $product->warehouseID = $request->warehouseID;
-        $product->statusID = $request->statusID;
 
         $product->save();
 
@@ -79,8 +77,6 @@ class ProductController extends Controller
         $product->width = $request->width;
         $product->height = $request->height;
         $product->length = $request->length;
-        $product->warehouseID = $request->warehouseID;
-        $product->statusID = $request->statusID;
 
         $product->save();
 
