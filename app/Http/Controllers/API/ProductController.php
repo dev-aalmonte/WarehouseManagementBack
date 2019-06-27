@@ -93,6 +93,6 @@ class ProductController extends Controller
     {
         $product->delete();
 
-        return 1;
+        return $product;
     }
 }
