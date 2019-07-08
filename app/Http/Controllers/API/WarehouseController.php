@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Warehouse;
+use App\Address;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -13,9 +14,13 @@ class WarehouseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Warehouse::all();
+        $search = $request->search;
+        if($search !== '' || $search !== null) {
+            return Warehouse::with('address')->where('name', 'like', '%'.$search.'%')->paginate(15);
+        }
+        return Warehouse::with('address')->paginate(15);
     }
 
     /**
@@ -27,9 +32,19 @@ class WarehouseController extends Controller
     public function store(Request $request)
     {
         $warehouse = new Warehouse();
+        $address = new Address();
+
+        $address->street_address = $request->street_address;
+        $address->extra_address = $request->extra_address;
+        $address->city = $request->city;
+        $address->state = $request->state;
+        $address->country = $request->country;
+        $address->zipcode = $request->zipcode;
+
+        $address->save();
 
         $warehouse->name = $request->name;
-        $warehouse->addressID = $request->addressID;
+        $warehouse->addressID = $address->id;
 
         $warehouse->save();
 
@@ -44,7 +59,7 @@ class WarehouseController extends Controller
      */
     public function show(Warehouse $warehouse)
     {
-        return $warehouse;
+        return Warehouse::with('address')->find($warehouse->id);
     }
 
     /**
@@ -56,8 +71,18 @@ class WarehouseController extends Controller
      */
     public function update(Request $request, Warehouse $warehouse)
     {
+        $address = Address::find($warehouse->addressID);
+
+        $address->street_address = $request->street_address;
+        $address->extra_address = $request->extra_address;
+        $address->city = $request->city;
+        $address->state = $request->state;
+        $address->country = $request->country;
+        $address->zipcode = $request->zipcode;
+
+        $address->save();
+
         $warehouse->name = $request->name;
-        $warehouse->addressID = $request->addressID;
 
         $warehouse->save();
 
@@ -72,7 +97,9 @@ class WarehouseController extends Controller
      */
     public function destroy(Warehouse $warehouse)
     {
+        $address = Address::find($warehouse->addressID);
         $warehouse->delete();
+        $address->delete();
 
         return 1;
     }

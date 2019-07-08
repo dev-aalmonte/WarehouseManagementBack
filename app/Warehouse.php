@@ -12,8 +12,8 @@ class Warehouse extends Model
         return $this->hasMany('App\User');
     }
 
-    public function addresses() {
-        return $this->belongsTo('App\Address');
+    public function address() {
+        return $this->belongsTo('App\Address', 'id');
     }
 
     public function products() {

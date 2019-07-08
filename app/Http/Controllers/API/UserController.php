@@ -39,9 +39,13 @@ class UserController extends Controller
         return $user;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return User::all();
+        $search = $request->search;
+        if($search !== '' || $search !== null) {
+            return User::where('first_name', 'like', '%'.$search.'%')->orWhere('last_name', 'like', '%'.$search.'%')->paginate(15);
+        }
+        return User::paginate(15);
     }
 
     /**
