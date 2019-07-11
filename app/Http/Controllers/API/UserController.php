@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 
 class UserController extends Controller
@@ -43,9 +44,9 @@ class UserController extends Controller
     {
         $search = $request->search;
         if($search !== '' || $search !== null) {
-            return User::where('first_name', 'like', '%'.$search.'%')->orWhere('last_name', 'like', '%'.$search.'%')->paginate(15);
+            return User::with('warehouse')->with('role')->where('first_name', 'like', '%'.$search.'%')->orWhere('last_name', 'like', '%'.$search.'%')->paginate(15);
         }
-        return User::paginate(15);
+        return User::with('warehouse')->with('role')->paginate(15);
     }
 
     /**
@@ -56,7 +57,20 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = new User();
+
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->email_verified_at = now();
+        $user->password = Hash::make($request->password);
+        $user->roleID = $request->roleID;
+        $user->warehouseID = $request->warehouseID;
+
+        $user->save();
+
+        return $user;
     }
 
     /**
@@ -67,7 +81,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return $user;
+        return User::with('warehouse')->with('role')->find($user->id);
     }
 
     /**
@@ -79,7 +93,17 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->roleID = $request->roleID;
+        $user->warehouseID = $request->warehouseID;
+
+        $user->save();
+
+        return $user;
     }
 
     /**
@@ -90,6 +114,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return $user;
     }
 }

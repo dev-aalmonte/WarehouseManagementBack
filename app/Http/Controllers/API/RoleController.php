@@ -13,9 +13,13 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Role::all();
+        $search = $request->search;
+        if($search !== '' || $search !== null) {
+            return Role::where('role', 'like', '%'.$search.'%')->paginate(15);
+        }
+        return Role::paginate(15);
     }
 
     /**
