@@ -28,7 +28,8 @@ Route::middleware('cors')->group(function () {
         'roles' => 'API\RoleController',
         'status' => 'API\StatusController',
         'users' => 'API\UserController',
-        'warehouses' => 'API\WarehouseController'
+        'warehouses' => 'API\WarehouseController',
+        'stock' => 'API\StockController',
     ]);
 
     Route::post('/login', 'API\UserController@Login');
