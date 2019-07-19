@@ -6,6 +6,7 @@ use App\Warehouse;
 use App\ProductWarehouse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Builder;
 
 class StockController extends Controller
 {
@@ -14,9 +15,26 @@ class StockController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->search;
+        $warehouse = $request->warehouse;
+        if($search !== '' || $search !== null) {
+            return ProductWarehouse::with('product')
+                    ->with('warehouse')
+                    ->with('status')
+                    ->whereHas('product', function (Builder $query) use ($search) {
+                        $query->where('name', 'like','%'.$search.'%');
+                    })
+                    ->where('warehouseID',  $warehouse)
+                    ->paginate(15);
+        }
 
+        return ProductWarehouse::with('product')
+                    ->with('warehouse')
+                    ->with('status')
+                    ->where('warehouseID', $warehouse)
+                    ->paginate(15);
     }
 
     /**
