@@ -13,9 +13,10 @@ class StatusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Status::all();
+        $property = $request->property;
+        return Status::where('property', $property)->get();
     }
 
     /**

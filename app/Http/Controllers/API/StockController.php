@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Warehouse;
 use App\ProductWarehouse;
+use App\Warehouse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Builder;
@@ -38,16 +38,6 @@ class StockController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -76,21 +66,10 @@ class StockController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Warehouse  $warehouse
+     * @param  \App\ProductWarehouse  $productWarehouse
      * @return \Illuminate\Http\Response
      */
-    public function show(Warehouse $warehouse)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Warehouse  $warehouse
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Warehouse $warehouse)
+    public function show(ProductWarehouse $stock)
     {
         //
     }
@@ -99,22 +78,28 @@ class StockController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Warehouse  $warehouse
+     * @param  \App\ProductWarehouse  $productWarehouse
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Warehouse $warehouse)
+    public function update(Request $request, ProductWarehouse $stock)
     {
-        //
+        $stock->statusID = $request['statusID'];
+        $stock->stock = $request['stock'];
+
+        $stock->save();
+
+        return $stock;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Warehouse  $warehouse
+     * @param  \App\ProductWarehouse  $productWarehouse
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Warehouse $warehouse)
+    public function destroy(ProductWarehouse $stock)
     {
-        //
+        $stock->delete();
+        return $stock;
     }
 }
