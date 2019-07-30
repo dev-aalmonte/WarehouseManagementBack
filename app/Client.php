@@ -13,10 +13,10 @@ class Client extends Model
     }
 
     public function billingAddress() {
-        return $this->belongsTo('App\Address');
+        return $this->belongsTo('App\Address', 'billing_addressID', 'id');
     }
 
     public function shippingAddress() {
-        return $this->belongsTo('App\Address');
+        return $this->belongsTo('App\Address', 'shipping_addressID', 'id');
     }
 }
