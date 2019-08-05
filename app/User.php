@@ -38,11 +38,11 @@ class User extends Authenticatable
     ];
 
     public function role() {
-        return $this->belongsTo('App\Role', 'id');
+        return $this->belongsTo('App\Role', 'roleID');
     }
 
     public function warehouse() {
-        return $this->belongsTo('App\Warehouse', 'id');
+        return $this->belongsTo('App\Warehouse', 'warehouseID');
     }
 
     public function orderUsers() {
