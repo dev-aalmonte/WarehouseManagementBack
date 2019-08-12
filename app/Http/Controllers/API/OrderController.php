@@ -13,9 +13,13 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Order::all();
+        $search = $request->search;
+        if($search !== '' || $search !== null) {
+            return Order::with('status')->where('clientID', $request->clientID)->paginate(15);
+        }
+        return Order::with('status')->where('clientID', $request->clientID)->paginate(15);
     }
 
     /**

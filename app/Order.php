@@ -9,7 +9,7 @@ class Order extends Model
     protected $table = 'orders';
 
     public function status() {
-        return $this->belongsTo('App\Status');
+        return $this->belongsTo('App\Status', 'statusID');
     }
 
     public function client() {
