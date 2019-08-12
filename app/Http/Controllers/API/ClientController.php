@@ -46,6 +46,7 @@ class ClientController extends Controller
         $client->first_name = $request->first_name;
         $client->last_name = $request->last_name;
         $client->email = $request->email;
+        $client->description = $request->description;
         $client->billing_addressID = $address->id;
         $client->shipping_addressID = $address->id;
 
@@ -88,6 +89,7 @@ class ClientController extends Controller
         $client->first_name = $request->first_name;
         $client->last_name = $request->last_name;
         $client->email = $request->email;
+        $client->description = $request->description;
         $client->billing_addressID = $address->id;
         $client->shipping_addressID = $address->id;
 
