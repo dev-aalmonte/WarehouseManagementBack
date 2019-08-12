@@ -24,6 +24,7 @@ Route::middleware('cors')->group(function () {
         'categories' => 'API\CategoryController',
         'clients' => 'API\ClientController',
         'orders' => 'API\OrderController',
+        'orderdetail' => 'API\OrderDetailController',
         'products' => 'API\ProductController',
         'roles' => 'API\RoleController',
         'status' => 'API\StatusController',

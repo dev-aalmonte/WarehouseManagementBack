@@ -30,8 +30,10 @@ class OrderController extends Controller
 
         $order->clientID = $request->clientID;
         $order->subtotal = $request->subtotal;
+        $order->tax = $request->tax;
+        $order->shipping = $request->shipping;
         $order->total = $request->total;
-        $order->statusID = $request->statusID;
+        $order->statusID = 6;
 
         $order->save();
 
