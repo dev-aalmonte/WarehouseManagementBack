@@ -17,7 +17,7 @@ class OrderController extends Controller
     {
         $search = $request->search;
         if(isset($request->search) ) {
-            return Order::with('status')->with('orderDetail')->with('orderDetails')->where('clientID', $request->clientID)->where('id', 'like', '%'.$request->search.'%')->paginate(15);
+            return Order::with('status')->with('orderDetail')->with('orderDetails')->where('clientID', $request->clientID)->where('id', 'like', '%'.$request->search.~'%')->paginate(15);
         }
         return Order::with('status')->with('orderDetail')->with('orderDetails')->where('clientID', $request->clientID)->paginate(15);
     }
