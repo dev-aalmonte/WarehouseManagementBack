@@ -20,6 +20,10 @@ class Order extends Model
         return $this->belongsToMany('App\User', 'orderusers', 'orderID', 'userID');
     }
 
+    public function orderDetail() {
+        return $this->hasMany('App\OrderDetail', 'orderID');
+    }
+
     public function orderDetails() {
         return $this->belongsToMany('App\Product', 'orderdetails', 'orderID', 'productID');
     }

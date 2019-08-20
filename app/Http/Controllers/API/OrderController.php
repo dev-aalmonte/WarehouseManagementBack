@@ -17,9 +17,9 @@ class OrderController extends Controller
     {
         $search = $request->search;
         if($search !== '' || $search !== null) {
-            return Order::with('status')->where('clientID', $request->clientID)->paginate(15);
+            return Order::with('status')->with('orderDetail')->with('orderDetails')->where('clientID', $request->clientID)->paginate(15);
         }
-        return Order::with('status')->where('clientID', $request->clientID)->paginate(15);
+        return Order::with('status')->with('orderDetail')->with('orderDetails')->where('clientID', $request->clientID)->paginate(15);
     }
 
     /**
@@ -52,7 +52,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        return $order;
+        return Order::with('status')->with('orderDetail')->with('orderDetails')->find($order->id);
     }
 
     /**
