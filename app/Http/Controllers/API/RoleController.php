@@ -16,7 +16,7 @@ class RoleController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
-        if($search !== '' || $search !== null) {
+        if(isset($request->search)) {
             return Role::where('role', 'like', '%'.$search.'%')->paginate(15);
         }
         return Role::paginate(15);

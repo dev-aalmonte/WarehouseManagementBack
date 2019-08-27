@@ -19,7 +19,7 @@ class StockController extends Controller
     {
         $search = $request->search;
         $warehouse = $request->warehouse;
-        if($search !== '' || $search !== null) {
+        if(isset($request->search)) {
             return ProductWarehouse::with('product')
                     ->with('warehouse')
                     ->with('status')

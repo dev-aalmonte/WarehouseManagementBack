@@ -43,7 +43,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
-        if($search !== '' || $search !== null) {
+        if(isset($request->search)) {
             return User::with('warehouse')->with('role')->where('first_name', 'like', '%'.$search.'%')->orWhere('last_name', 'like', '%'.$search.'%')->paginate(15);
         }
         return User::with('warehouse')->with('role')->paginate(15);

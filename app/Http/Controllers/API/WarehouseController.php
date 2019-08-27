@@ -17,7 +17,7 @@ class WarehouseController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
-        if($search !== '' || $search !== null) {
+        if(isset($request->search)) {
             return Warehouse::with('address')->where('name', 'like', '%'.$search.'%')->paginate(15);
         }
         return Warehouse::with('address')->paginate(15);

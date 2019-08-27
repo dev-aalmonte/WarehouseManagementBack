@@ -17,7 +17,7 @@ class ClientController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
-        if($search !== '' || $search !== null) {
+        if(isset($request->search)) {
             return Client::with('billingAddress')->with('shippingAddress')->where('first_name', 'like', '%'.$search.'%')->paginate(15);
         }
         return Client::with('billingAddress')->with('shippingAddress')->paginate(15);
