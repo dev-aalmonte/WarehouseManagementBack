@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\User;
+
+use App\Http\Requests\StoreUserPost;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
@@ -55,8 +58,11 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUserPost $request)
     {
+
+        $validated = $request->validated();
+
         $user = new User();
 
         $user->first_name = $request->first_name;
@@ -70,7 +76,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return $user;
+        return $validated;
     }
 
     /**

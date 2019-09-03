@@ -4,6 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Warehouse;
 use App\Address;
+
+use App\Http\Requests\StoreWarehousePost;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -29,8 +32,11 @@ class WarehouseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreWarehousePost $request)
     {
+
+        $validated = $request->validated();
+
         $warehouse = new Warehouse();
         $address = new Address();
 
@@ -48,7 +54,7 @@ class WarehouseController extends Controller
 
         $warehouse->save();
 
-        return $warehouse;
+        return $validated;
     }
 
     /**

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Product;
+
+use App\Http\Requests\StoreProductPost;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -28,8 +31,10 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProductPost $request)
     {
+        $validated = $request->validated();
+
         $product = new Product();
 
         $product->name = $request->name;
@@ -44,7 +49,7 @@ class ProductController extends Controller
 
         $product->save();
 
-        return $product;
+        return $validated;
     }
 
     /**

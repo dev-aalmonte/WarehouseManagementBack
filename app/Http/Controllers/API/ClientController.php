@@ -4,6 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Client;
 use App\Address;
+
+use App\Http\Requests\StoreClientPost;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -29,8 +32,10 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreClientPost $request)
     {
+        $validated = $request->validated();
+
         $client = new Client();
         $address = new Address();
 
@@ -52,7 +57,7 @@ class ClientController extends Controller
 
         $client->save();
 
-        return $client;
+        return $validated;
     }
 
     /**

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Order;
+
+use App\Http\Requests\StoreOrderPost;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -28,8 +31,10 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreOrderPost $request)
     {
+        $validated = $request->validated();
+
         $order = new Order();
 
         $order->clientID = $request->clientID;
@@ -41,7 +46,7 @@ class OrderController extends Controller
 
         $order->save();
 
-        return $order;
+        return $validated;
     }
 
     /**
