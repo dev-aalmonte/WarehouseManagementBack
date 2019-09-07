@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Order;
+
+use App\Http\Requests\StoreOrderPost;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -13,9 +16,13 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Order::all();
+        $search = $request->search;
+        if(isset($request->search) ) {
+            return Order::with('status')->with('orderDetail')->with('orderDetails')->where('clientID', $request->clientID)->where('id', 'like', '%'.$request->search.~'%')->paginate(15);
+        }
+        return Order::with('status')->with('orderDetail')->with('orderDetails')->where('clientID', $request->clientID)->paginate(15);
     }
 
     /**
@@ -24,18 +31,22 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreOrderPost $request)
     {
+        $validated = $request->validated();
+
         $order = new Order();
 
         $order->clientID = $request->clientID;
         $order->subtotal = $request->subtotal;
+        $order->tax = $request->tax;
+        $order->shipping = $request->shipping;
         $order->total = $request->total;
-        $order->statusID = $request->statusID;
+        $order->statusID = 6;
 
         $order->save();
 
-        return $order;
+        return $validated;
     }
 
     /**
@@ -46,7 +57,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        return $order;
+        return Order::with('status')->with('orderDetail')->with('orderDetails')->find($order->id);
     }
 
     /**

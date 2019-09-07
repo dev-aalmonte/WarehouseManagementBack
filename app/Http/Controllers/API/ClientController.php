@@ -4,6 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Client;
 use App\Address;
+
+use App\Http\Requests\StoreClientPost;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -17,10 +20,10 @@ class ClientController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
-        if($search !== '' || $search !== null) {
-            return Client::with('billingAddress')->where('first_name', 'like', '%'.$search.'%')->paginate(15);
+        if(isset($request->search)) {
+            return Client::with('billingAddress')->with('shippingAddress')->where('first_name', 'like', '%'.$search.'%')->paginate(15);
         }
-        return Client::with('billingAddress')->paginate(15);
+        return Client::with('billingAddress')->with('shippingAddress')->paginate(15);
     }
 
     /**
@@ -29,8 +32,10 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreClientPost $request)
     {
+        $validated = $request->validated();
+
         $client = new Client();
         $address = new Address();
 
@@ -46,12 +51,13 @@ class ClientController extends Controller
         $client->first_name = $request->first_name;
         $client->last_name = $request->last_name;
         $client->email = $request->email;
+        $client->description = $request->description;
         $client->billing_addressID = $address->id;
         $client->shipping_addressID = $address->id;
 
         $client->save();
 
-        return $client;
+        return $validated;
     }
 
     /**
@@ -62,7 +68,7 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        return Client::with('billingAddress')->find($client->id);
+        return Client::with('billingAddress')->with('shippingAddress')->find($client->id);
     }
 
     /**
@@ -88,6 +94,7 @@ class ClientController extends Controller
         $client->first_name = $request->first_name;
         $client->last_name = $request->last_name;
         $client->email = $request->email;
+        $client->description = $request->description;
         $client->billing_addressID = $address->id;
         $client->shipping_addressID = $address->id;
 

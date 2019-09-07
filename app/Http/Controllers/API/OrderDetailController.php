@@ -2,24 +2,20 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Role;
+use App\OrderDetail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class RoleController extends Controller
+class OrderDetailController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $search = $request->search;
-        if(isset($request->search)) {
-            return Role::where('role', 'like', '%'.$search.'%')->paginate(15);
-        }
-        return Role::paginate(15);
+        //
     }
 
     /**
@@ -30,52 +26,48 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $role = new Role();
+        $orderDetail = new OrderDetail();
 
-        $role->role = $request['role'];
+        $orderDetail->orderID = $request->orderID;
+        $orderDetail->productID = $request->productID;
+        $orderDetail->quantity = $request->quantity;
 
-        $role->save();
+        $orderDetail->save();
 
-        return $role;
+        return $orderDetail;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Role  $role
+     * @param  \App\OrderDetail  $orderDetail
      * @return \Illuminate\Http\Response
      */
-    public function show(Role $role)
+    public function show(OrderDetail $orderDetail)
     {
-        return $role;
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Role  $role
+     * @param  \App\OrderDetail  $orderDetail
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $role)
+    public function update(Request $request, OrderDetail $orderDetail)
     {
-        $role->role = $request->role;
-
-        $role->save();
-
-        return $role;
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Role  $role
+     * @param  \App\OrderDetail  $orderDetail
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Role $role)
+    public function destroy(OrderDetail $orderDetail)
     {
-        $role->delete();
-
-        return 1;
+        //
     }
 }

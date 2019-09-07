@@ -4,6 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Warehouse;
 use App\Address;
+
+use App\Http\Requests\StoreWarehousePost;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -17,7 +20,7 @@ class WarehouseController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
-        if($search !== '' || $search !== null) {
+        if(isset($request->search)) {
             return Warehouse::with('address')->where('name', 'like', '%'.$search.'%')->paginate(15);
         }
         return Warehouse::with('address')->paginate(15);
@@ -29,8 +32,11 @@ class WarehouseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreWarehousePost $request)
     {
+
+        $validated = $request->validated();
+
         $warehouse = new Warehouse();
         $address = new Address();
 
@@ -48,7 +54,7 @@ class WarehouseController extends Controller
 
         $warehouse->save();
 
-        return $warehouse;
+        return $validated;
     }
 
     /**

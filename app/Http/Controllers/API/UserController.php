@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\User;
+
+use App\Http\Requests\StoreUserPost;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
@@ -43,7 +46,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
-        if($search !== '' || $search !== null) {
+        if(isset($request->search)) {
             return User::with('warehouse')->with('role')->where('first_name', 'like', '%'.$search.'%')->orWhere('last_name', 'like', '%'.$search.'%')->paginate(15);
         }
         return User::with('warehouse')->with('role')->paginate(15);
@@ -55,8 +58,11 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUserPost $request)
     {
+
+        $validated = $request->validated();
+
         $user = new User();
 
         $user->first_name = $request->first_name;
@@ -70,7 +76,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return $user;
+        return $validated;
     }
 
     /**

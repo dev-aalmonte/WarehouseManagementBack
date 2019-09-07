@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Product;
+
+use App\Http\Requests\StoreProductPost;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -16,10 +19,9 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
-        if($search !== '' || $search !== null){
+        if(isset($request->search)){
             return Product::where('name', 'like', '%'.$search.'%')->paginate(15);
         }
-
         return Product::paginate(15);
     }
 
@@ -29,8 +31,10 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProductPost $request)
     {
+        $validated = $request->validated();
+
         $product = new Product();
 
         $product->name = $request->name;
@@ -45,7 +49,7 @@ class ProductController extends Controller
 
         $product->save();
 
-        return $product;
+        return $validated;
     }
 
     /**
