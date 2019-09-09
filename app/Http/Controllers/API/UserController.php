@@ -22,7 +22,7 @@ class UserController extends Controller
             return $user;
         }
 
-        return ['error' => 'Unauthenticated User', 'code' => 401, 'request' => $request->all()];
+        return ['error' => 'The Email or the Password are incorrect', 'code' => 401, 'request' => $request->all()];
     }
 
     public function logout(Request $request){
