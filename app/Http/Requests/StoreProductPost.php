@@ -31,8 +31,10 @@ class StoreProductPost extends FormRequest
             'description' => 'required',
         ];
     }
-    
+
     protected function failedValidation(Validator $validator) {
-        throw new HttpResponseException(response()->json($validator->errors(), 422));
+        $errors = $validator->errors();
+        $errorArr = ['error' => $errors, 'code' => 422];
+        throw new HttpResponseException(response()->json($errorArr, 422));
     }
 }

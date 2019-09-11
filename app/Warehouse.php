@@ -13,7 +13,7 @@ class Warehouse extends Model
     }
 
     public function address() {
-        return $this->belongsTo('App\Address', 'id');
+        return $this->belongsTo('App\Address', 'addressID');
     }
 
     public function products() {
