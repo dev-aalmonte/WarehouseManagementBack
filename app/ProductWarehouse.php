@@ -19,4 +19,8 @@ class ProductWarehouse extends Model
     public function status() {
         return $this->belongsTo('App\Status', 'statusID');
     }
+
+    public function location() {
+        return $this->belongsToMany('App\Row', 'product_locations', 'product_warehouseID', 'rowID');
+    }
 }
