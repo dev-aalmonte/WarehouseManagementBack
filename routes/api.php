@@ -36,6 +36,8 @@ Route::middleware('cors')->group(function () {
     Route::post('/login', 'API\UserController@Login');
     Route::post('/logout', 'API\UserController@Logout');
 
+    Route::post('/warehouses/location', 'API\WarehouseController@storeLocation');
+
     Route::get('/user/token/{token}', 'API\UserController@showByToken');
 });
 

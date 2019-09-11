@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Warehouse;
+use App\Section;
+use App\Aisle;
+use App\Column;
+use App\Row;
 use App\Address;
 
 use App\Http\Requests\StoreWarehousePost;
@@ -55,6 +59,35 @@ class WarehouseController extends Controller
         $warehouse->save();
 
         return $validated;
+    }
+
+    public function storeLocation(Request $request) {
+        $section = new Section();
+        $aisle = new Aisle();
+        $column = new Column();
+        $row = new Row();
+
+        $section->code = $request->section;
+        $section->warehouseID = $request->warehouseID;
+
+        $section->save();
+
+        $aisle->number = $request->aisle;
+        $aisle->sectionID = $section->id;
+
+        $aisle->save();
+
+        $column->number = $request->column;
+        $column->aisleID = $aisle->id;
+
+        $column->save();
+
+        $row->number = $request->row;
+        $row->columnID = $column->id;
+
+        $row->save();
+
+        return ['section' => $section, 'aisle' => $aisle, 'column' => $column, 'row' => $row];
     }
 
     /**
