@@ -11,4 +11,8 @@ class Section extends Model
     public function warehouse() {
         return $this->belongsTo('App\Warehouse', 'warehouseID');
     }
+
+    public function aisle() {
+        return $this->hasMany('App\Aisle', 'sectionID');
+    }
 }

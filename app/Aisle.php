@@ -11,4 +11,8 @@ class Aisle extends Model
     public function section() {
         return $this->belongsTo('App\Section', 'sectionID');
     }
+
+    public function column() {
+        return $this->hasMany('App\Column', 'aisleID');
+    }
 }

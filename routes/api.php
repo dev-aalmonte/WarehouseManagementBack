@@ -31,11 +31,13 @@ Route::middleware('cors')->group(function () {
         'users' => 'API\UserController',
         'warehouses' => 'API\WarehouseController',
         'stock' => 'API\StockController',
+        'location' => 'API\LocationController'
     ]);
 
     Route::post('/login', 'API\UserController@Login');
     Route::post('/logout', 'API\UserController@Logout');
 
+    Route::get('/warehouses_location', 'API\WarehouseController@getLocations');
     Route::post('/warehouses/location', 'API\WarehouseController@storeLocation');
 
     Route::get('/user/token/{token}', 'API\UserController@showByToken');

@@ -11,4 +11,8 @@ class Column extends Model
     public function aisle() {
         return $this->belongsTo('App\Aisle', 'aisleID');
     }
+
+    public function row() {
+        return $this->hasMany('App\Row', 'columnID');
+    }
 }
