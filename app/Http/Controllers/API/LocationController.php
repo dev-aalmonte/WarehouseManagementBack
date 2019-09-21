@@ -43,32 +43,100 @@ class LocationController extends Controller
      */
     public function store(Request $request)
     {
-        $section = new Section();
-        $aisle = new Aisle();
-        $column = new Column();
-        $row = new Row();
+        $section = Section::where('warehouseID', $request['warehouseID'])->where('code', $request['section'])->first();
 
-        $section->code = $request->section;
-        $section->warehouseID = $request->warehouseID;
+        if($section) {
+            $aisle = Aisle::where('sectionID', $section->id)->where('number', $request['aisle'])->first();
 
-        $section->save();
+            if($aisle) {
+                $column = Column::where('aisleID', $aisle->id)->where('number', $request['column'])->first();
 
-        $aisle->number = $request->aisle;
-        $aisle->sectionID = $section->id;
+                if($column) {
+                    $row = Row::where('columnID', $column->id)->where('number', $request['row'])->first();
 
-        $aisle->save();
+                    if($row) {
+                        return ['section' => $section, 'aisle' => $aisle, 'column' => $column, 'row' => $row];
+                    }
+                    else {
+                        $row = new Row();
 
-        $column->number = $request->column;
-        $column->aisleID = $aisle->id;
+                        $row->number = $request->row;
+                        $row->columnID = $column->id;
 
-        $column->save();
+                        $row->save();
 
-        $row->number = $request->row;
-        $row->columnID = $column->id;
+                        return ['section' => $section, 'aisle' => $aisle, 'column' => $column, 'row' => $row];
+                    }
+                }
+                else {
+                    $column = new Column();
+                    $row = new Row();
 
-        $row->save();
+                    $column->number = $request->column;
+                    $column->aisleID = $aisle->id;
 
-        return ['section' => $section, 'aisle' => $aisle, 'column' => $column, 'row' => $row];
+                    $column->save();
+
+                    $row->number = $request->row;
+                    $row->columnID = $column->id;
+
+                    $row->save();
+
+                    return ['section' => $section, 'aisle' => $aisle, 'column' => $column, 'row' => $row];
+                }
+            }
+            else {
+                $aisle = new Aisle();
+                $column = new Column();
+                $row = new Row();
+
+                $aisle->number = $request->aisle;
+                $aisle->sectionID = $section->id;
+
+                $aisle->save();
+
+                $column->number = $request->column;
+                $column->aisleID = $aisle->id;
+
+                $column->save();
+
+                $row->number = $request->row;
+                $row->columnID = $column->id;
+
+                $row->save();
+
+                return ['section' => $section, 'aisle' => $aisle, 'column' => $column, 'row' => $row];
+            }
+        }
+        else {
+            $section = new Section();
+            $aisle = new Aisle();
+            $column = new Column();
+            $row = new Row();
+
+            $section->code = $request->section;
+            $section->warehouseID = $request->warehouseID;
+
+            $section->save();
+
+            $aisle->number = $request->aisle;
+            $aisle->sectionID = $section->id;
+
+            $aisle->save();
+
+            $column->number = $request->column;
+            $column->aisleID = $aisle->id;
+
+            $column->save();
+
+            $row->number = $request->row;
+            $row->columnID = $column->id;
+
+            $row->save();
+
+            return ['section' => $section, 'aisle' => $aisle, 'column' => $column, 'row' => $row];
+        }
+
     }
 
     /**
