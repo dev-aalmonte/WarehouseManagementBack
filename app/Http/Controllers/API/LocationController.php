@@ -9,6 +9,7 @@ use App\Column;
 use App\Row;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class LocationController extends Controller
 {
@@ -21,18 +22,55 @@ class LocationController extends Controller
     {
         $search = $request->search;
         $warehouseID = $request->warehouse;
+
+        $locations;
+
         if(isset($request->search)) {
-            return Warehouse::with('section.aisle.column.row')
+            $locations = Warehouse::with('section.aisle.column.row')
                     ->whereHas('product', function (Builder $query) use ($search) {
                         $query->where('name', 'like','%'.$search.'%');
                     })
                     ->where('id',  $warehouseID)
-                    ->paginate(15);
+                    ->get();
         }
 
-        return Warehouse::with('section.aisle.column.row')
+        $locations = Warehouse::with('section.aisle.column.row')
                     ->where('id', $warehouseID)
-                    ->paginate(15);
+                    ->get();
+
+        $items = [];
+        foreach ($locations[0]->section as $section_key => $section) {
+            foreach ($section->aisle as $aisle_key => $aisle) {
+                foreach ($aisle->column as $column_key => $column) {
+                    foreach ($column->row as $row_key => $row) {
+                        array_push($items, [
+                            'warehouseID' => $warehouseID,
+                            'sectionID' => $section->id,
+                            'aisleID' => $aisle->id,
+                            'columnID' => $column->id,
+                            'rowID' => $row->id,
+
+                            'section' => $section->code,
+                            'aisle' => $aisle->number,
+                            'column' => $column->number,
+                            'row' => $row->number,
+
+                            'location' => $section->code."-".$aisle->number."-".$column->number."-".$row->number
+                        ]);
+                    }
+                }
+            }
+        }
+
+        $total = count($items);
+        $perPage = 15;
+        $currentPage = 1;
+        $path = "http://127.0.0.1:8000/api/location";
+
+        $paginator = new LengthAwarePaginator($items, $total, $perPage, $currentPage);
+        $paginator->setPath($path);
+
+        return $paginator;
     }
 
     /**
@@ -168,8 +206,8 @@ class LocationController extends Controller
      * @param  \App\Warehouse  $warehouse
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Warehouse $warehouse)
+    public function destroy(Request $request)
     {
-        //
+        // $section = Section::find($section)
     }
 }
