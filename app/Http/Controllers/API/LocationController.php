@@ -64,7 +64,7 @@ class LocationController extends Controller
 
         $total = count($items);
         $perPage = 15;
-        $currentPage = 1;
+        $currentPage = $request->page ? $request->page : 1;
         $path = "http://127.0.0.1:8000/api/location";
 
         $paginator = new LengthAwarePaginator($items, $total, $perPage, $currentPage);
@@ -208,6 +208,8 @@ class LocationController extends Controller
      */
     public function destroy(Request $request)
     {
-        // $section = Section::find($section)
+        $row = Row::find($request->rowID);
+        $row->delete();
+        return $row;
     }
 }
