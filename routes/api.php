@@ -40,6 +40,11 @@ Route::middleware('cors')->group(function () {
     Route::get('/warehouses_location', 'API\WarehouseController@getLocations');
     Route::post('/warehouses/location', 'API\WarehouseController@storeLocation');
 
+    Route::get('/location/section/{warehouse}', 'API\LocationController@getSections');
+    Route::get('/location/aisle/{section}', 'API\LocationController@getAisles');
+    Route::get('/location/column/{aisle}', 'API\LocationController@getColumns');
+    Route::get('/location/row/{column}', 'API\LocationController@getRows');
+
     Route::get('/user/token/{token}', 'API\UserController@showByToken');
 });
 

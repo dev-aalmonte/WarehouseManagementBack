@@ -177,6 +177,26 @@ class LocationController extends Controller
 
     }
 
+    public function getSections(Warehouse $warehouse){
+        $section = Section::where('warehouseID', $warehouse->id)->get();
+        return $section;
+    }
+
+    public function getAisles(Section $section){
+        $aisle = Aisle::where('sectionID', $section->id)->get();
+        return $aisle;
+    }
+
+    public function getColumns(Aisle $aisle){
+        $column = Column::where('aisleID', $aisle->id)->get();
+        return $column;
+    }
+
+    public function getRows(Column $column){
+        $row = Row::where('columnID', $column->id)->get();
+        return $row;
+    }
+
     /**
      * Display the specified resource.
      *
