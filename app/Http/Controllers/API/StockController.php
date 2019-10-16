@@ -56,6 +56,7 @@ class StockController extends Controller
             $product_warehouse->warehouseID = $request['warehouseID'];
             $product_warehouse->statusID = $request['statusID'];
             $product_warehouse->stock = $request['stock'];
+            $product_warehouse->unassigned = $request['stock'];
         }
 
         $product_warehouse->save();

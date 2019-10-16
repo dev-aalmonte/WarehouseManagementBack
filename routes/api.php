@@ -44,6 +44,7 @@ Route::middleware('cors')->group(function () {
     Route::get('/location/aisle/{section}', 'API\LocationController@getAisles');
     Route::get('/location/column/{aisle}', 'API\LocationController@getColumns');
     Route::get('/location/row/{column}', 'API\LocationController@getRows');
+    Route::post('/location/item', 'API\LocationController@storeItemToLocation');
 
     Route::get('/user/token/{token}', 'API\UserController@showByToken');
 });

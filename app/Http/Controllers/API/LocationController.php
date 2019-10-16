@@ -7,6 +7,8 @@ use App\Section;
 use App\Aisle;
 use App\Column;
 use App\Row;
+use App\ProductLocation;
+use App\ProductWarehouse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -195,6 +197,36 @@ class LocationController extends Controller
     public function getRows(Column $column){
         $row = Row::where('columnID', $column->id)->get();
         return $row;
+    }
+
+    public function storeItemToLocation(Request $request){
+        $product_warehouse = ProductWarehouse::find($request->product_warehouseID);
+        $product_location = ProductLocation::where('product_warehouseID', $request->product_warehouseID)->where('rowID', $request->rowID)->first();
+
+        if($product_location){
+            $product_location->stock = $product_location->stock + $request->stock;
+        }
+        else {
+            $product_location = new ProductLocation();
+
+            $product_location->product_warehouseID = $request->product_warehouseID;
+            $product_location->rowID = $request->rowID;
+            $product_location->stock = $request->stock;
+        }
+
+
+        $unassigned = $product_warehouse->unassigned - $request->stock;
+        if($unassigned < 0) {
+            $unassigned = 0;
+        }
+
+        $product_warehouse->unassigned = $product_warehouse->unassigned - $request->stock;
+        $product_warehouse->assigned = $product_warehouse->assigned + $request->stock;
+
+        $product_warehouse->save();
+        $product_location->save();
+
+        return [$product_warehouse, $product_location];
     }
 
     /**
