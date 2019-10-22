@@ -199,6 +199,19 @@ class LocationController extends Controller
         return $row;
     }
 
+    public function getItems(Row $row) {
+        $items = ProductLocation::with("product_warehouse.product")->where('rowID', $row->id)->get();
+        $return = [];
+        foreach ($items as $key => $item) {
+            array_push($return, [
+                'name' => $item->product_warehouse->product->name,
+                'price' => $item->product_warehouse->product->price,
+                'stock' => $item->stock
+            ]);
+        }
+        return $return;
+    }
+
     public function storeItemToLocation(Request $request){
         $product_warehouse = ProductWarehouse::find($request->product_warehouseID);
         $product_location = ProductLocation::where('product_warehouseID', $request->product_warehouseID)->where('rowID', $request->rowID)->first();

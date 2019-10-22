@@ -11,4 +11,8 @@ class Row extends Model
     public function column() {
         return $this->belongsTo('App\Column', 'columnID');
     }
+
+    public function product_warehouse() {
+        return $this->belongsToMany('App\ProductWarehouse', 'product_locations', 'rowID', 'product_warehouseID');
+    }
 }
