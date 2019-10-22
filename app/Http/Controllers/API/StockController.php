@@ -4,17 +4,14 @@ namespace App\Http\Controllers\API;
 
 use App\ProductWarehouse;
 use App\Warehouse;
+use App\ProductLocation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Builder;
 
 class StockController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request)
     {
         $search = $request->search;
@@ -37,12 +34,6 @@ class StockController extends Controller
                     ->paginate(15);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $product_warehouse = ProductWarehouse::where('productID', $request['productID'])->where('warehouseID', $request['warehouseID'])->first();
@@ -64,24 +55,11 @@ class StockController extends Controller
         return $product_warehouse;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\ProductWarehouse  $productWarehouse
-     * @return \Illuminate\Http\Response
-     */
     public function show(ProductWarehouse $stock)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ProductWarehouse  $productWarehouse
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, ProductWarehouse $stock)
     {
         $stock->statusID = $request['statusID'];
@@ -92,15 +70,21 @@ class StockController extends Controller
         return $stock;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\ProductWarehouse  $productWarehouse
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(ProductWarehouse $stock)
     {
         $stock->delete();
         return $stock;
+    }
+
+    public function getLocations(ProductWarehouse $stock) {
+        $locations = ProductLocation::with("row.column.aisle.section")->where('product_warehouseID', $stock->id)->get();
+        $return = [];
+        foreach ($locations as $key => $location) {
+            array_push($return, [
+                'location' => "{$location->row->column->aisle->section->code}-{$location->row->column->aisle->number}-{$location->row->column->number}-{$location->row->number}",
+                'stock' => $location->stock
+            ]);
+        }
+        return $return;
     }
 }
