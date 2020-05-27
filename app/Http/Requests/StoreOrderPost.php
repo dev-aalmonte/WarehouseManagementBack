@@ -29,7 +29,6 @@ class StoreOrderPost extends FormRequest
             'clientID' => 'required',
             'subtotal' => 'required',
             'total' => 'required',
-            'statusID' => 'required'
         ];
     }
 

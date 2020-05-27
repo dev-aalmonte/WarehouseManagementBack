@@ -18,11 +18,23 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->search;
-        if(isset($request->search) ) {
-            return Order::with('status')->with('orderDetail')->with('orderDetails')->where('clientID', $request->clientID)->where('id', 'like', '%'.$request->search.~'%')->paginate(15);
+        return $this->queryIndex($request)->paginate(15);
+    }
+
+    private function queryIndex(Request $request) {
+        $query = Order::with('status')->with('orderDetail')->with('orderDetails')->with('client');
+
+        if(isset($request->clientID)) {
+            $query->where('clientID', $request->clientID);
         }
-        return Order::with('status')->with('orderDetail')->with('orderDetails')->where('clientID', $request->clientID)->paginate(15);
+        if(isset($request->statusID)){
+            $query->where('statusID', $request->statusID);
+        }
+        if(isset($request->search)){
+            $query->where('id', 'like', '%'.$request->search.'%');
+        }
+
+        return $query;
     }
 
     /**
@@ -42,11 +54,11 @@ class OrderController extends Controller
         $order->tax = $request->tax;
         $order->shipping = $request->shipping;
         $order->total = $request->total;
-        $order->statusID = 6;
+        $order->statusID = 3;
 
         $order->save();
 
-        return $validated;
+        return $order;
     }
 
     /**
