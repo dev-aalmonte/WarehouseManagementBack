@@ -22,7 +22,7 @@ class OrderController extends Controller
     }
 
     private function queryIndex(Request $request) {
-        $query = Order::with('status')->with('orderDetail')->with('orderDetails')->with('client');
+        $query = Order::with('status')->with('orderDetail')->with('orderDetails')->with('client')->with('orderUsers');
 
         if(isset($request->clientID)) {
             $query->where('clientID', $request->clientID);
