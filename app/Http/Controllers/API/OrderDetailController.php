@@ -37,6 +37,17 @@ class OrderDetailController extends Controller
         return $orderDetail;
     }
 
+    public function updateStatus(Request $request) {
+        $orderDetail = OrderDetail::find($request->order_detail_id);
+
+        $orderDetail->picked = true;
+        $orderDetail->picked_by = $request->user_id;
+
+        $orderDetail->save();
+
+        return $orderDetail;
+    }
+
     /**
      * Display the specified resource.
      *

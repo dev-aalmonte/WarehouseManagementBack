@@ -51,5 +51,7 @@ Route::middleware('cors')->group(function () {
     Route::post('/location/item', 'API\LocationController@storeItemToLocation');
 
     Route::get('/user/token/{token}', 'API\UserController@showByToken');
+
+    Route::post('/orderdetails/update', 'API\OrderDetailController@updateStatus');
 });
 
