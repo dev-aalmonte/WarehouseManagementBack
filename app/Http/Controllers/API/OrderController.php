@@ -81,10 +81,10 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        $order->clientID = $request->clientID;
-        $order->subtotal = $request->subtotal;
-        $order->total = $request->total;
-        $order->statusID = $request->statusID;
+        $order->clientID = $request->clientID ? $request->clientID : $order->clientID;
+        $order->subtotal = $request->subtotal ? $request->subtotal : $order->subtotal;
+        $order->total = $request->total ? $request->total : $order->total;
+        $order->statusID = $request->statusID ? $request->statusID : $order->statusID;
 
         $order->save();
 
