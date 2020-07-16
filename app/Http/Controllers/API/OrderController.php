@@ -27,7 +27,7 @@ class OrderController extends Controller
         if(isset($request->clientID)) {
             $query->where('clientID', $request->clientID);
         }
-        if(isset($request->statusID)){
+        if(isset($request->statusID) && $request->statusID != -1){
             $query->where('statusID', $request->statusID);
         }
         if(isset($request->search)){
