@@ -22,7 +22,7 @@ class OrderController extends Controller
     }
 
     private function queryIndex(Request $request) {
-        $query = Order::with('status')->with('orderDetail')->with('orderDetails')->with('client')->with('orderUsers');
+        $query = Order::with('status')->with('client')->with('orderDetail')->with('orderDetails')->with('orderUsers');
 
         if(isset($request->clientID)) {
             $query->where('clientID', $request->clientID);
@@ -69,7 +69,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        return Order::with('status')->with('orderDetail')->with('orderDetails')->find($order->id);
+        return Order::with('status')->with('client')->with('orderDetail')->with('orderDetails')->find($order->id);
     }
 
     /**

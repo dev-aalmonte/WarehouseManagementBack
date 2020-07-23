@@ -40,8 +40,17 @@ class OrderDetailController extends Controller
     public function updateStatus(Request $request) {
         $orderDetail = OrderDetail::find($request->order_detail_id);
 
-        $orderDetail->picked = true;
-        $orderDetail->picked_by = $request->user_id;
+        switch ($request->type) {
+            case 'pick':
+                $orderDetail->picked = $request->picked;
+                $orderDetail->picked_by = $request->user_id;
+                break;
+
+            case 'ship':
+                $orderDetail->packed = $request->packed;
+                $orderDetail->packed_by = $request->user_id;
+                break;
+        }
 
         $orderDetail->save();
 
