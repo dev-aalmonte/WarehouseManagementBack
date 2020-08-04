@@ -6,6 +6,7 @@ use App\Product;
 
 use App\Http\Requests\StoreProductPost;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -34,9 +35,9 @@ class ProductController extends Controller
     public function store(StoreProductPost $request)
     {
         $validated = $request->validated();
-
+        
         $product = new Product();
-
+        
         $product->name = $request->name;
         $product->price = $request->price;
         $product->description = $request->description;
@@ -46,10 +47,20 @@ class ProductController extends Controller
         $product->width = $request->width;
         $product->height = $request->height;
         $product->length = $request->length;
-
+        
         $product->save();
+        
+        return ($validated) ? $product : $validated;
+    }
+    
+    public function uploadImage(Request $request, Product $product) {
+        if($request->hasFile('image')) {
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $filename = "{$product->name}";
+            $request->file('image')->storeAs("Products/{$product->name}", "{$filename}[{$request->index}].{$extension}");
+        }
 
-        return $validated;
+        return $request;
     }
 
     /**

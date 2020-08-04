@@ -53,5 +53,9 @@ Route::middleware('cors')->group(function () {
     Route::get('/user/token/{token}', 'API\UserController@showByToken');
 
     Route::post('/orderdetails/update', 'API\OrderDetailController@updateStatus');
+
+    // Upload Files
+    Route::post('/upload/product/{product}', 'API\ProductController@uploadImage');
+
 });
 
