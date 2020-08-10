@@ -20,10 +20,11 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
+        $item_number = isset($request->item_number) ? $request->item_number : 15;
         if(isset($request->search)){
-            return Product::where('name', 'like', '%'.$search.'%')->paginate(15);
+            return Product::where('name', 'like', '%'.$search.'%')->paginate($item_number);
         }
-        return Product::paginate(15);
+        return Product::paginate($item_number);
     }
 
     /**
