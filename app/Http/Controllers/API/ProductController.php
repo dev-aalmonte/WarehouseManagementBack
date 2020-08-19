@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use File;
+
 class ProductController extends Controller
 {
     /**
@@ -36,9 +38,9 @@ class ProductController extends Controller
     public function store(StoreProductPost $request)
     {
         $validated = $request->validated();
-        
+
         $product = new Product();
-        
+
         $product->name = $request->name;
         $product->price = $request->price;
         $product->description = $request->description;
@@ -48,20 +50,22 @@ class ProductController extends Controller
         $product->width = $request->width;
         $product->height = $request->height;
         $product->length = $request->length;
-        
+
         $product->save();
-        
+
         return ($validated) ? $product : $validated;
     }
-    
+
     public function uploadImage(Request $request, Product $product) {
+        $file_path = '';
+
         if($request->hasFile('image')) {
             $extension = $request->file('image')->getClientOriginalExtension();
             $filename = "{$product->name}";
-            $request->file('image')->storeAs("Products/{$product->name}", "{$filename}[{$request->index}].{$extension}");
+            $file_path = $request->file('image')->storeAs("/public/images/products/{$product->name}", "{$filename}[{$request->index}].{$extension}");
         }
 
-        return $request;
+        return $file_path;
     }
 
     /**
@@ -110,5 +114,28 @@ class ProductController extends Controller
         $product->delete();
 
         return $product;
+    }
+
+    public function getImages(Product $product) {
+        $product_path = storage_path('app\public\images\products\\'. $product->name);
+
+        if(File::exists($product_path)) {
+            $files = [];
+            $directory_files = Storage::files($product_path);
+
+            foreach ($directory_files as $filename) {
+                array_push($files, Storage::get($filename));
+            }
+
+            $filecount = 0;
+
+            if($directory_files !== false) {
+                $filecount = count($directory_files);
+            }
+
+            return $files;
+        }
+
+        return "false";
     }
 }

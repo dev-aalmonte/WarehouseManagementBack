@@ -57,5 +57,7 @@ Route::middleware('cors')->group(function () {
     // Upload Files
     Route::post('/upload/product/{product}', 'API\ProductController@uploadImage');
 
+    // Testing
+    Route::get('/download/product/{product}', 'API\ProductController@getImages');
 });
 
