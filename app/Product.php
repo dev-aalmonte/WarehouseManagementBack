@@ -8,7 +8,7 @@ class Product extends Model
 {
     protected $table = 'products';
 
-    public function image() {
+    public function images() {
         return $this->hasMany('App\ProductImages', 'productID');
     }
 

@@ -26,7 +26,7 @@ class ProductController extends Controller
     {
         $search = $request->search;
         $item_number = isset($request->item_number) ? $request->item_number : 15;
-        $query = Product::with('image');
+        $query = Product::with('images');
         if(isset($request->search)){
             return $query->where('name', 'like', '%'.$search.'%')->paginate($item_number);
         }
@@ -75,7 +75,7 @@ class ProductController extends Controller
             $product_image->productID = $product->id;
             $product_image->name = $filename;
             $product_image->extension = $extension;
-            $product_image->path = $file_path;
+            $product_image->path = str_replace("public/", "", $file_path);
 
             $product_image->save();
 
@@ -134,25 +134,7 @@ class ProductController extends Controller
     }
 
     public function getImages(Product $product) {
-        $product_path = storage_path('app\public\images\products\\'. $product->name);
-
-        if(File::exists($product_path)) {
-            $files = [];
-            $directory_files = Storage::files($product_path);
-
-            foreach ($directory_files as $filename) {
-                array_push($files, Storage::get($filename));
-            }
-
-            $filecount = 0;
-
-            if($directory_files !== false) {
-                $filecount = count($directory_files);
-            }
-
-            return $files;
-        }
-
-        return "false";
+        $product_images = ProductImages::where('productID', $product->id)->get();
+        return $product_images;
     }
 }
