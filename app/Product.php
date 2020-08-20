@@ -8,6 +8,10 @@ class Product extends Model
 {
     protected $table = 'products';
 
+    public function image() {
+        return $this->hasMany('App\ProductImages', 'productID');
+    }
+
     public function warehouse() {
         return $this->belongsToMany('App\Warehouse', 'product_warehouses', 'productID', 'warehouseID');
     }

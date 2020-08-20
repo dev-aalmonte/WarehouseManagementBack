@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\API;
 
 use App\Product;
+use App\ProductImages;
 
 use App\Http\Requests\StoreProductPost;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
+use Faker;
 
 use File;
 
@@ -23,10 +26,11 @@ class ProductController extends Controller
     {
         $search = $request->search;
         $item_number = isset($request->item_number) ? $request->item_number : 15;
+        $query = Product::with('image');
         if(isset($request->search)){
-            return Product::where('name', 'like', '%'.$search.'%')->paginate($item_number);
+            return $query->where('name', 'like', '%'.$search.'%')->paginate($item_number);
         }
-        return Product::paginate($item_number);
+        return $query->paginate($item_number);
     }
 
     /**
@@ -60,9 +64,22 @@ class ProductController extends Controller
         $file_path = '';
 
         if($request->hasFile('image')) {
+            $faker = Faker\Factory::create();
+
             $extension = $request->file('image')->getClientOriginalExtension();
-            $filename = "{$product->name}";
-            $file_path = $request->file('image')->storeAs("/public/images/products/{$product->name}", "{$filename}[{$request->index}].{$extension}");
+            $filename = $faker->sha1;
+            $file_path = $request->file('image')->storeAs("/public/images/products/{$product->name}", "{$filename}.{$extension}");
+
+            $product_image = new ProductImages();
+
+            $product_image->productID = $product->id;
+            $product_image->name = $filename;
+            $product_image->extension = $extension;
+            $product_image->path = $file_path;
+
+            $product_image->save();
+
+            return $product_image;
         }
 
         return $file_path;
