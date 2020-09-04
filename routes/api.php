@@ -57,6 +57,9 @@ Route::middleware('cors')->group(function () {
     // Upload Files
     Route::post('/upload/product/{product}', 'API\ProductController@uploadImage');
 
+    // Remove Files
+    Route::delete('/images/product/{image}', 'API\ProductController@removeImage');
+
     // Testing
     Route::get('/download/product/{product}', 'API\ProductController@getImages');
 });

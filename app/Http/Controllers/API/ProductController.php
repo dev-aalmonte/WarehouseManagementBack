@@ -93,7 +93,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return $product;
+        return Product::with('images')->find($product->id);
     }
 
     /**
@@ -136,5 +136,13 @@ class ProductController extends Controller
     public function getImages(Product $product) {
         $product_images = ProductImages::where('productID', $product->id)->get();
         return $product_images;
+    }
+
+    public function removeImage(ProductImages $image) {
+        $image->delete();
+
+        Storage::delete('public/'.$image->path);
+
+        return $image;
     }
 }
