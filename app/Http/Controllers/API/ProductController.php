@@ -128,7 +128,12 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        foreach ($product->images as $image) {
+            ProductImages::find($image->id)->delete();
+        }
         $product->delete();
+        Storage::deleteDirectory("/public/images/products/$product->name");
+
 
         return $product;
     }
