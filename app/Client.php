@@ -22,10 +22,10 @@ class Client extends Model
     }
 
     public function logo() {
-        return $this->hasOne('App\ClientImages', 'logoID', 'id');
+        return $this->hasOne('App\ClientImages', "id", "logoID");
     }
 
     public function background() {
-        return $this->hasOne('App\ClientImages', 'backgroundID', 'id');
+        return $this->hasOne('App\ClientImages', "id", "backgroundID");
     }
 }

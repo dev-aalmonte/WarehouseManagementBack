@@ -25,9 +25,9 @@ class ClientController extends Controller
     {
         $search = $request->search;
         if(isset($request->search)) {
-            return Client::with('billingAddress')->with('shippingAddress')->where('first_name', 'like', '%'.$search.'%')->paginate(15);
+            return Client::with('billingAddress')->with('shippingAddress')->with('logo')->with('background')->where('first_name', 'like', '%'.$search.'%')->paginate(15);
         }
-        return Client::with('billingAddress')->with('shippingAddress')->paginate(15);
+        return Client::with('billingAddress')->with('shippingAddress')->with('logo')->with('background')->paginate(15);
     }
 
     /**
@@ -73,13 +73,15 @@ class ClientController extends Controller
         if($request->hasFile('logo')) {
             $logo_client_image->extension = $request->file('logo')->getClientOriginalExtension();
             $logo_client_image->name = $faker->sha1;
-            $logo_client_image->path = $request->file('logo')->storeAs("/public/images/clients/logo/{$client->last_name}[{$client->id}]", $logo_client_image->name.".".$logo_client_image->extension);
+            $path = $request->file('logo')->storeAs("/public/images/clients/logo/{$client->last_name}[{$client->id}]", $logo_client_image->name.".".$logo_client_image->extension);
+            $logo_client_image->path = str_replace("public/", "", $path);
         }
 
         if($request->hasFile('background')) {
             $background_client_image->extension = $request->file('background')->getClientOriginalExtension();
             $background_client_image->name = $faker->sha1;
-            $background_client_image->path = $request->file('background')->storeAs("/public/images/clients/background/{$client->last_name}[{$client->id}]", $background_client_image->name.".".$background_client_image->extension);
+            $path = $request->file('background')->storeAs("/public/images/clients/background/{$client->last_name}[{$client->id}]", $background_client_image->name.".".$background_client_image->extension);
+            $background_client_image->path = str_replace("public/", "", $path);
         }
 
         $logo_client_image->clientID = $client->id;
@@ -104,7 +106,7 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        return Client::with('billingAddress')->with('shippingAddress')->find($client->id);
+        return Client::with('billingAddress')->with('shippingAddress')->with('logo')->with('background')->find($client->id);
     }
 
     /**
