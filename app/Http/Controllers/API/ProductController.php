@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use Faker;
-
 use File;
 
 class ProductController extends Controller

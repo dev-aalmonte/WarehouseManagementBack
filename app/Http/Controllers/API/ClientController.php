@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\API;
 
 use App\Client;
+use App\ClientImages;
 use App\Address;
 
 use App\Http\Requests\StoreClientPost;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
+use Faker;
+use File;
 
 class ClientController extends Controller
 {
@@ -58,6 +62,38 @@ class ClientController extends Controller
         $client->save();
 
         return $validated;
+    }
+
+    public function uploadImage(Request $request, Client $client) {
+        $logo_client_image = new ClientImages();
+        $background_client_image = new ClientImages();
+
+        $faker = Faker\Factory::create();
+
+        if($request->hasFile('logo')) {
+            $logo_client_image->extension = $request->file('logo')->getClientOriginalExtension();
+            $logo_client_image->name = $faker->sha1;
+            $logo_client_image->path = $request->file('logo')->storeAs("/public/images/clients/logo/{$client->last_name}[{$client->id}]", $logo_client_image->name.".".$logo_client_image->extension);
+        }
+
+        if($request->hasFile('background')) {
+            $background_client_image->extension = $request->file('background')->getClientOriginalExtension();
+            $background_client_image->name = $faker->sha1;
+            $background_client_image->path = $request->file('background')->storeAs("/public/images/clients/background/{$client->last_name}[{$client->id}]", $background_client_image->name.".".$background_client_image->extension);
+        }
+
+        $logo_client_image->clientID = $client->id;
+        $background_client_image->clientID = $client->id;
+
+        $logo_client_image->save();
+        $background_client_image->save();
+
+        $client->logoID = $logo_client_image->id;
+        $client->backgroundID = $background_client_image->id;
+
+        $client->save();
+
+        return [$logo_client_image, $background_client_image];
     }
 
     /**

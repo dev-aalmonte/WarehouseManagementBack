@@ -18,6 +18,14 @@ class Client extends Model
     }
 
     public function shippingAddress() {
-        return $this->belongsTo('App\Address', 'shipping_addressID', 'id' );
+        return $this->belongsTo('App\Address', 'shipping_addressID', 'id');
+    }
+
+    public function logo() {
+        return $this->hasOne('App\ClientImages', 'logoID', 'id');
+    }
+
+    public function background() {
+        return $this->hasOne('App\ClientImages', 'backgroundID', 'id');
     }
 }
