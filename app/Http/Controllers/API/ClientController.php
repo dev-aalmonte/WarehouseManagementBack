@@ -95,7 +95,7 @@ class ClientController extends Controller
 
         $client->save();
 
-        return [$logo_client_image, $background_client_image];
+        return $client;
     }
 
     /**
