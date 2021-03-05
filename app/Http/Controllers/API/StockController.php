@@ -55,10 +55,10 @@ class StockController extends Controller
         return $product_warehouse;
     }
 
-    public function show(ProductWarehouse $stock)
-    {
-        //
-    }
+    // public function show(ProductWarehouse $stock)
+    // {
+    //     //
+    // }
 
     public function update(Request $request, ProductWarehouse $stock)
     {
