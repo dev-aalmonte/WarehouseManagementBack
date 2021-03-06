@@ -17,7 +17,9 @@ class CreateOrderUsersForeignKeys extends Migration
             $table->unsignedBigInteger('orderID')->change();
             $table->unsignedBigInteger('userID')->change();
             $table->unsignedBigInteger('statusID')->change();
+        });
 
+        Schema::table('orderusers', function (Blueprint $table){
             $table->foreign('orderID')->references('id')->on('orders');
             $table->foreign('userID')->references('id')->on('users');
             $table->foreign('statusID')->references('id')->on('status');
