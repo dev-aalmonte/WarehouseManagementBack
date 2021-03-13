@@ -13,7 +13,7 @@ class UpdateOrderDetailsTableAddPickedAndPickedByColumns extends Migration
      */
     public function up()
     {
-        Schema::table('orderdetails', function (Blueprint $table) {
+        Schema::table('orderDetails', function (Blueprint $table) {
             $table->boolean("picked")->after('discount_price')->default(false);
             $table->unsignedBigInteger("picked_by")->after('picked')->nullable();
         });
@@ -26,7 +26,7 @@ class UpdateOrderDetailsTableAddPickedAndPickedByColumns extends Migration
      */
     public function down()
     {
-        Schema::table('orderdetails', function (Blueprint $table) {
+        Schema::table('orderDetails', function (Blueprint $table) {
             $table->dropColumn('picked');
             $table->dropColumn('picked_by');
         });

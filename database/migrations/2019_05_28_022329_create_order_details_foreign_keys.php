@@ -13,7 +13,7 @@ class CreateOrderDetailsForeignKeys extends Migration
      */
     public function up()
     {
-        Schema::table('orderdetails', function (Blueprint $table) {
+        Schema::table('orderDetails', function (Blueprint $table) {
             $table->unsignedBigInteger('orderID')->change();
             $table->unsignedBigInteger('productID')->change();
 
@@ -29,7 +29,7 @@ class CreateOrderDetailsForeignKeys extends Migration
      */
     public function down()
     {
-        Schema::table('orderdetails', function (Blueprint $table) {
+        Schema::table('orderDetails', function (Blueprint $table) {
             $table->dropForeign(['orderID']);
             $table->dropForeign(['productID']);
         });

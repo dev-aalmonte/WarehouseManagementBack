@@ -13,7 +13,7 @@ class CreateCategoryProductsForeignKeys extends Migration
      */
     public function up()
     {
-        Schema::table('categoryproducts', function (Blueprint $table) {
+        Schema::table('categoryProducts', function (Blueprint $table) {
             $table->unsignedBigInteger('productID')->change();
             $table->unsignedBigInteger('categoryID')->change();
 
@@ -29,7 +29,7 @@ class CreateCategoryProductsForeignKeys extends Migration
      */
     public function down()
     {
-        Schema::table('categoryproducts', function (Blueprint $table) {
+        Schema::table('categoryProducts', function (Blueprint $table) {
             $table->dropForeign(['productID']);
             $table->dropForeign(['categoryID']);
         });

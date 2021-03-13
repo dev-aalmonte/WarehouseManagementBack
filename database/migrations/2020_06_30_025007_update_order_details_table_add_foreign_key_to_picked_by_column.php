@@ -13,7 +13,7 @@ class UpdateOrderDetailsTableAddForeignKeyToPickedByColumn extends Migration
      */
     public function up()
     {
-        Schema::table('orderdetails', function (Blueprint $table) {
+        Schema::table('orderDetails', function (Blueprint $table) {
             $table->foreign('picked_by')->references('id')->on('users');
         });
     }
@@ -25,7 +25,7 @@ class UpdateOrderDetailsTableAddForeignKeyToPickedByColumn extends Migration
      */
     public function down()
     {
-        Schema::table('orderdetails', function (Blueprint $table) {
+        Schema::table('orderDetails', function (Blueprint $table) {
             $table->dropForeign(['picked_by']);
         });
     }

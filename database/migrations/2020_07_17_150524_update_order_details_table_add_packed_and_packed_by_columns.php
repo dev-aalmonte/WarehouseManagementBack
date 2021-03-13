@@ -13,7 +13,7 @@ class UpdateOrderDetailsTableAddPackedAndPackedByColumns extends Migration
      */
     public function up()
     {
-        Schema::table('orderdetails', function (Blueprint $table) {
+        Schema::table('orderDetails', function (Blueprint $table) {
             $table->boolean("packed")->after('picked_by')->default(false);
             $table->unsignedBigInteger("packed_by")->after('packed')->nullable();
         });
@@ -26,7 +26,7 @@ class UpdateOrderDetailsTableAddPackedAndPackedByColumns extends Migration
      */
     public function down()
     {
-        Schema::table('orderdetails', function (Blueprint $table) {
+        Schema::table('orderDetails', function (Blueprint $table) {
             $table->dropColumn('packed');
             $table->dropColumn('packed_by');
         });
