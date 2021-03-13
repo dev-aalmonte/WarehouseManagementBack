@@ -33,7 +33,7 @@ class CreateOrderUsersForeignKeys extends Migration
      */
     public function down()
     {
-        Schema::table('orderusers', function (Blueprint $table) {
+        Schema::table('orderUsers', function (Blueprint $table) {
             $table->dropForeign(['orderID']);
             $table->dropForeign(['userID']);
             $table->dropForeign(['statusID']);
