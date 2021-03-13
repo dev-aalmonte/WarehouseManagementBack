@@ -13,10 +13,10 @@ class CreateOrderDetailsForeignKeys extends Migration
      */
     public function up()
     {
-        Schema::table('orderDetails', function (Blueprint $table) {
-            $table->unsignedBigInteger('orderID')->change();
-            $table->unsignedBigInteger('productID')->change();
+        // $table->unsignedBigInteger('orderID')->change();
+        // $table->unsignedBigInteger('productID')->change();
 
+        Schema::table('orderDetails', function (Blueprint $table) {
             $table->foreign('orderID')->references('id')->on('orders');
             $table->foreign('productID')->references('id')->on('products');
         });

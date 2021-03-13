@@ -15,8 +15,8 @@ class CreateCategoryProductsDetailsTable extends Migration
     {
         Schema::create('categoryProducts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('productID');
-            $table->unsignedInteger('categoryID');
+            $table->unsignedBigInteger('productID');
+            $table->unsignedBigInteger('categoryID');
             $table->timestamps();
         });
     }

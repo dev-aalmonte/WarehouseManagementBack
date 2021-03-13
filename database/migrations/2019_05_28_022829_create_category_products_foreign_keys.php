@@ -13,10 +13,10 @@ class CreateCategoryProductsForeignKeys extends Migration
      */
     public function up()
     {
-        Schema::table('categoryProducts', function (Blueprint $table) {
-            $table->unsignedBigInteger('productID')->change();
-            $table->unsignedBigInteger('categoryID')->change();
+        // $table->unsignedBigInteger('productID')->change();
+        // $table->unsignedBigInteger('categoryID')->change();
 
+        Schema::table('categoryProducts', function (Blueprint $table) {
             $table->foreign('productID')->references('id')->on('products');
             $table->foreign('categoryID')->references('id')->on('categories');
         });
