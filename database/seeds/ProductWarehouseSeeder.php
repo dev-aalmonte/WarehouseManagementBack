@@ -12,6 +12,6 @@ class ProductWarehouseSeeder extends Seeder
      */
     public function run()
     {
-        $product_warehouses = factory(ProductWarehouse::class, 30)->create();
+        $product_warehouses = factory(ProductWarehouse::class, 10)->create();
     }
 }
