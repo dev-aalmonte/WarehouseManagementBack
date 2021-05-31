@@ -99,13 +99,13 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-        $user->username = $request->username;
-        $user->email = $request->email;
+        $user->first_name = $request->first_name == '' ? $user->first_name : $request->first_name;
+        $user->last_name = $request->last_name == '' ? $user->last_name : $request->last_name;
+        $user->username = $request->username == '' ? $user->username : $request->username;
+        // $user->email = $request->email;
         $user->password = Hash::make($request->password);
-        $user->roleID = $request->roleID;
-        $user->warehouseID = $request->warehouseID;
+        $user->roleID = $request->roleID == '' ? $user->roleID : $request->roleID;
+        $user->warehouseID = $request->warehouseID == '' ? $user->warehouseID : $request->warehouseID;
 
         $user->save();
 
